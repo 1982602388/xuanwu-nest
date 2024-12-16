@@ -1,5 +1,18 @@
-import { IsNotEmpty, IsString, IsNumber, IsOptional } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsString,
+  IsNumber,
+  IsOptional,
+  IsArray,
+  ValidateNested,
+} from 'class-validator';
 
+import { Type } from 'class-transformer';
+class CreateSubItemDto {
+  @IsNotEmpty()
+  @IsString()
+  name: string;
+}
 export class CreateProductDto {
   @IsNotEmpty()
   @IsString()
@@ -16,4 +29,9 @@ export class CreateProductDto {
   @IsString()
   @IsOptional()
   imageUrl?: string;
+
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => CreateSubItemDto)
+  moreMessage: CreateSubItemDto[];
 }
